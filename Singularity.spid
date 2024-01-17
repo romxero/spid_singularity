@@ -1,0 +1,45 @@
+Bootstrap: docker
+From: debian:unstable-slim
+
+%post
+#mkdirs
+#mkdir -p /opt/julia
+mkdir -p /usr/local/bin/
+apt-get -y update
+apt-get -y install samtools jupyter minimap2 curl procps python3 python3-pip git wget
+
+#julia install
+cd /tmp
+wget https://julialang-s3.julialang.org/bin/linux/x64/1.10/julia-1.10.0-linux-x86_64.tar.gz
+tar zxvf julia-1.10.0-linux-x86_64.tar.gz -C /opt
+rm julia-1.10.0-linux-x86_64.tar.gz
+
+
+export JULIA_DEPOT_PATH=/opt/julia
+export JULIA_PROJECT=/opt/Spid.jl
+
+ln -s /opt/julia-1.10.0 /opt/julia
+mkdir -p /opt/julia/src/
+#grab spid repo
+cd /opt
+git clone https://github.com/czbiohub-sf/Spid.jl.git
+
+#copy files to their right places 
+cp -rf /opt/Spid.jl/Project.toml /opt/julia/
+cp -rf /opt/Spid.jl/src/*.jl /opt/julia/src/
+cp -rf /opt/Spid.jl/bin/spid.jl /usr/local/bin/
+#build julia packages
+/opt/julia/bin/julia -O3 -e 'using Pkg; Pkg.instantiate(); using Spid; Pkg.add("IJulia")'  
+# change permissions AFTER installing julia packages
+chmod -R a+rw /opt/julia
+
+%environment
+export JULIA_DEPOT_PATH=/opt/julia
+export JULIA_PROJECT=/opt/Spid.jl
+export PATH=$JULIA_DEPOT_PATH/bin:$PATH
+
+
+%runscript
+julia 
+
+

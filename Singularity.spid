@@ -40,6 +40,4 @@ export PATH=$JULIA_DEPOT_PATH/bin:$PATH
 
 
 %runscript
-julia 
-
-
+/usr/local/bin/spid.jl

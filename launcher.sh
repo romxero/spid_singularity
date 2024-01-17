@@ -2,7 +2,7 @@
 
 #launching the container 
 CONTAINER_FULL_PATH='/hpc/apps/spid/master/bin/spid.sif'
-MAIN_COMMAND=$(echo $0 | tr -d "\"\'\`\.\/")
+MAIN_COMMAND=$(basename $0)
 SPID_USER_CACHE_DIR=${HOME}/._spid
 SPID_USER_LOGFILE=${SPID_USER_CACHE_DIR}/spid.log
 
@@ -25,11 +25,11 @@ case ${MAIN_COMMAND} in
 
   "jupyter")
     #jupyter apptainer launch
-    apptainer exec ${CONTAINER_FULL_PATH} jupyter $@ 
+    apptainer exec ${CONTAINER_FULL_PATH} jupyter "$@" 
     ;;
 
   "container-spid.jl")
-    apptainer exec ${CONTAINER_FULL_PATH} spid.jl $@ 
+    apptainer exec ${CONTAINER_FULL_PATH} spid.jl "$@" 
     ;;
 
   *)

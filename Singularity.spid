@@ -44,7 +44,7 @@ cp -rf /opt/Spid.jl/bin/spid.jl /usr/local/bin/
 chmod -R a+rw /opt/julia
 
 %environment
-export JULIA_DEPOT_PATH=/opt/julia
+export JULIA_DEPOT_PATH=${HOME}/._spid:/opt/julia
 export JULIA_PROJECT=/opt/Spid.jl
 export PATH=$JULIA_DEPOT_PATH/bin:$PATH
 

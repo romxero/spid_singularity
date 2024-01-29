@@ -14,13 +14,6 @@ wget https://julialang-s3.julialang.org/bin/linux/x64/1.10/julia-1.10.0-linux-x8
 tar zxvf julia-1.10.0-linux-x86_64.tar.gz -C /opt
 rm julia-1.10.0-linux-x86_64.tar.gz
 
-#redundant step but ok
-if ! [ -d ${SPID_USER_CACHE_DIR} ]
-then
-    #make the user directory
-    mkdir -p ${SPID_USER_CACHE_DIR}
-fi
-
 export JULIA_DEPOT_PATH=/opt/julia
 export JULIA_PROJECT=/opt/Spid.jl
 export SPID_USER_CACHE_DIR=${HOME}/._spid

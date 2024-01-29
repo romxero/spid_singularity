@@ -48,6 +48,8 @@ chmod -R a+rw /opt/julia
 export JULIA_DEPOT_PATH=${HOME}/._spid:/opt/julia
 export JULIA_PROJECT=/opt/Spid.jl
 export PATH=$JULIA_DEPOT_PATH/bin:$PATH
+export SPID_USER_CACHE_DIR=${HOME}/._spid
+
 
 if ! [ -d ${SPID_USER_CACHE_DIR} ]
 then

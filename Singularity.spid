@@ -116,6 +116,13 @@ if ! [ -d ${PREFERRED_CACHE_DIR} ]
 then
     #make the user directory
     mkdir -p ${PREFERRED_CACHE_DIR}
+fi
+
+
+
+if ! [ -d ${PREFERRED_CACHE_DIR}/overlay ]
+then
+    #make the user directory
     mkdir -p ${PREFERRED_CACHE_DIR}/overlay
 fi
 

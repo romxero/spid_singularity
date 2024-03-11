@@ -47,9 +47,45 @@ EOL
 )
 
 
+
+
+
+# Cache directory for overlay creation embedded into the container. 
+export SPID_USER_HAX=$(basename $HOME)
+export SPID_CACHE_DIR_NAME=spid_cache
+export SPID_USER_HOME_CACHE_DIR=${HOME}/${SPID_CACHE_DIR_NAME}
+export SPID_USER_MYDATA_CACHE_DIR=/hpc/mydata/${SPID_USER_HAX}/${SPID_CACHE_DIR_NAME}
+
+
+#check to see if our hpc directory exists, then make sure to generate cache directory for user
+
+PREFERRED_CACHE_DIR=${SPID_USER_MYDATA_CACHE_DIR}
+
+if [ -d '/hpc' ]
+then
+    PREFERRED_CACHE_DIR=${SPID_USER_MYDATA_CACHE_DIR}
+else
+    PREFERRED_CACHE_DIR=${SPID_USER_HOME_CACHE_DIR}
+fi
+
+
+if ! [ -d ${PREFERRED_CACHE_DIR} ]
+then
+    #make the user directory
+    mkdir -p ${PREFERRED_CACHE_DIR}
+    mkdir -p ${PREFERRED_CACHE_DIR}/overlay
+fi
+
+# Look at adding more to the depot directory. 
+
+
+####
+export PREFERRED_CACHE_DIR
+
+
 echo "Starting SPID Container w/ Jupyter Notebook"
 
-apptainer exec --writable-tmpfs --nv --bind /hpc:/hpc ${CONTAINER_FULL_PATH} jupyter notebook --config="${CONFIG_FILE}"
+apptainer exec --overlay ${PREFERRED_CACHE_DIR}/overlay --nv --bind /hpc:/hpc ${CONTAINER_FULL_PATH} jupyter notebook --config="${CONFIG_FILE}"
 
 exit 0 
 

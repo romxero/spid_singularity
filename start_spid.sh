@@ -7,13 +7,15 @@
 #container location
 CONTAINER_FULL_PATH='/hpc/apps/spid/master/bin/spid_container.sif'
 
+
+
 #noteboook location to launch everything 
 SPID_CACHE_DIR=${HOME}/.spid_cache
 if ! [ -d ${SPID_CACHE_DIR} ]; then
     mkdir -p ${SPID_CACHE_DIR}
 fi
 
-NOTEBOOK_ROOT=${HOME}
+NOTEBOOK_ROOT=${MYDATA}
 
 function create_random_port () 
 {
@@ -58,7 +60,7 @@ export SPID_USER_MYDATA_CACHE_DIR=/hpc/mydata/${SPID_USER_HAX}/${SPID_CACHE_DIR_
 
 
 #check to see if our hpc directory exists, then make sure to generate cache directory for user
-
+set -x 
 PREFERRED_CACHE_DIR=${SPID_USER_MYDATA_CACHE_DIR}
 
 if [ -d '/hpc' ]
@@ -73,8 +75,16 @@ if ! [ -d ${PREFERRED_CACHE_DIR} ]
 then
     #make the user directory
     mkdir -p ${PREFERRED_CACHE_DIR}
+fi
+
+
+if ! [ -d ${PREFERRED_CACHE_DIR}/overlay ]
+then
+    #make the user directory
     mkdir -p ${PREFERRED_CACHE_DIR}/overlay
 fi
+
+
 
 # Look at adding more to the depot directory. 
 
@@ -86,6 +96,12 @@ export PREFERRED_CACHE_DIR
 echo "Starting SPID Container w/ Jupyter Notebook"
 
 apptainer exec --overlay ${PREFERRED_CACHE_DIR}/overlay --nv --bind /hpc:/hpc ${CONTAINER_FULL_PATH} jupyter notebook --config="${CONFIG_FILE}"
+
+
+#apptainer shell --overlay ${PREFERRED_CACHE_DIR}/overlay --nv --bind /hpc:/hpc ${CONTAINER_FULL_PATH}
+
+
+
 
 exit 0 
 

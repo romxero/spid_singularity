@@ -6,7 +6,7 @@ From: debian:unstable-slim
 mkdir -p /usr/local/bin/
 apt-get -y update
 apt-get -y install samtools jupyter minimap2 curl procps python3 python3-pip git wget firefox parallel python3-seaborn python3-pandas python3-scipy python3-pickleshare libargparse-dev \
-python3-argparse-addons gdb make m4 python3-matplotlib python-matplotlib-data python3-matplotlib-inline python3-matplotlib-venn python3-sklearn-pandas python3-geopandas locales
+python3-argparse-addons gdb make m4 python3-matplotlib python-matplotlib-data python3-matplotlib-inline python3-matplotlib-venn python3-sklearn-pandas python3-geopandas locales strace gdb tree nano vim lldb
 
 # locales
 export LC_ALL=C
@@ -90,7 +90,7 @@ export PATH=/opt/julia/bin:/opt/Spid.jl/bin:$PATH
 export LC_ALL="C"
 
 # set 8 threads- that should be enough here
-export JULIA_NUM_THREADS=8
+#export JULIA_NUM_THREADS=8
 
 
 # Cache directory for overlay creation embedded into the container. 
@@ -138,7 +138,7 @@ export JULIA_LOAD_PATH=${CONT_JULIA_LOAD_PATH}:${JULIA_LOAD_PATH}
 export JULIA_PROJECT=/opt/Spid.jl
 
 #try this for stopping auto precompile
-export JULIA_PKG_PRECOMPILE_AUTO=0
+#export JULIA_PKG_PRECOMPILE_AUTO=0
 
 %runscript
 /usr/local/bin/spid.jl

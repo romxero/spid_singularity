@@ -49,7 +49,9 @@ cd /opt
 # At this moment this repo is deprecated in this image. 
 # Using my own fork from git
 #git clone https://github.com/czbiohub-sf/Spid.jl.git
+
 git clone https://github.com/romxero/Spid.jl-fixes.git
+mv Spid.jl-fixes Spid.jl
 
 # copy files to their right places
 cp -rf /opt/Spid.jl/Project.toml /opt/julia/
@@ -149,3 +151,6 @@ export JULIA_PROJECT=/opt/Spid.jl
 
 %runscript
 /usr/local/bin/spid.jl
+
+
+

@@ -46,20 +46,23 @@ mkdir -p /opt/julia/src/
 
 # grab spid repo
 cd /opt
-git clone https://github.com/czbiohub-sf/Spid.jl.git
+# At this moment this repo is deprecated in this image. 
+# Using my own fork from git
+#git clone https://github.com/czbiohub-sf/Spid.jl.git
+git clone https://github.com/romxero/Spid.jl-fixes.git
 
 # copy files to their right places
 cp -rf /opt/Spid.jl/Project.toml /opt/julia/
 cp -rf /opt/Spid.jl/src/*.jl /opt/julia/src/
 cp -rf /opt/Spid.jl/bin/spid.jl /usr/local/bin/
 
-#build julia packages
+# build julia packages
 /opt/julia/bin/julia -O3 -e 'using Pkg; Pkg.instantiate(); using Spid; Pkg.add("IJulia"); using IJulia; Pkg.activate("/opt/Spid.jl");'
 
 # change permissions AFTER installing julia packages
 chmod -R oga+rwx /opt/julia
 
-#force the ijulia installation again
+# force the ijulia installation again
 /opt/julia/bin/julia -O3 -e 'using Pkg; Pkg.instantiate(); Pkg.add("IJulia"); using IJulia; Pkg.build("IJulia");'
 
 # force the installation of argparse. 
@@ -68,11 +71,16 @@ chmod -R oga+rwx /opt/julia
 # initialize one last time
 /opt/julia/bin/julia -O3 -e 'using Pkg; Pkg.instantiate(); Pkg.update(); Pkg.precompile(); Pkg.gc()'
 
+# make sure we make /opt writable for others/users/owners
+chmod -R oga+rwx /opt
 
+# make sure the `/hpc` directory exists in the container, also make sure that its writable
+mkdir -p /hpc
+chmod -R oga+rwx /hpc
 
 #### end of post initialization
 %environment
-#make the proper julia exports
+# make the proper julia exports
 export CONT_JULIA_DEPOT_PATH=/opt/spid_depot
 export CONT_JULIA_LOAD_PATH=/opt/spid_load
 export CONT_JULIA_PKGDIR=/opt/spid_pkg
@@ -117,7 +125,6 @@ then
     #make the user directory
     mkdir -p ${PREFERRED_CACHE_DIR}
 fi
-
 
 
 if ! [ -d ${PREFERRED_CACHE_DIR}/overlay ]

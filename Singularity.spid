@@ -44,14 +44,22 @@ ln -s /opt/julia-1.10.0 /opt/julia
 # create the user hidden cache directory if it doesn't exist
 mkdir -p /opt/julia/src/
 
+# hash for working spid commit
+COMMIT_HASH="ae8dec64da679ab3d96aad4d7411f48202fb2218" 
 # grab spid repo
 cd /opt
 # At this moment this repo is deprecated in this image. 
 # Using my own fork from git
-#git clone https://github.com/czbiohub-sf/Spid.jl.git
+git clone https://github.com/czbiohub-sf/Spid.jl.git
 
-git clone https://github.com/romxero/Spid.jl-fixes.git
-mv Spid.jl-fixes Spid.jl
+
+cd Spid.jl
+git fetch --all
+git switch --detach ${COMMIT_HASH}
+cd /opt
+
+#git clone https://github.com/romxero/Spid.jl-fixes.git
+#mv Spid.jl-fixes Spid.jl
 
 # copy files to their right places
 cp -rf /opt/Spid.jl/Project.toml /opt/julia/

@@ -1,0 +1,9 @@
+--- Spid.jl/Project.toml	2024-03-28 16:57:02
++++ Spid.jl-fixes/Project.toml	2024-03-28 16:56:42
+@@ -11,3 +11,6 @@
+ DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+ FASTX = "c2308a5c-f048-11e8-3e8a-31650f418d12"
+ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
++
++[compat]
++BioSequences = "2.0.5"

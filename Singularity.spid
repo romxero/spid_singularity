@@ -52,7 +52,7 @@ cd /opt
 # Using my own fork from git
 git clone https://github.com/czbiohub-sf/Spid.jl.git
 
-
+#extra steps to grab specific commit
 cd Spid.jl
 git fetch --all
 git switch --detach ${COMMIT_HASH}
@@ -161,4 +161,10 @@ export JULIA_PROJECT=/opt/Spid.jl
 /usr/local/bin/spid.jl
 
 
+
+# INSTEAD MAKE A PATCH FILE 
+
+#make some patches 
+perl -pi -e 's/Float64/Int8/g' /opt/Spid.jl/src/Pileup2Consensus.jl
+perl -pi -e 's/samtools --version/samtools --version \| head -n1/g' /opt/Spid.jl/src/Pileup2Consensus.jl
 

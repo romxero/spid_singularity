@@ -48,15 +48,24 @@ mkdir -p /opt/julia/src/
 COMMIT_HASH="ae8dec64da679ab3d96aad4d7411f48202fb2218" 
 # grab spid repo
 cd /opt
-# At this moment this repo is deprecated in this image. 
-# Using my own fork from git
+
+# official spid repo
 git clone https://github.com/czbiohub-sf/Spid.jl.git
+
+# we also need to clone my patch 
+git clone https://github.com/romxero/spid_singularity.git
+
 
 #extra steps to grab specific commit
 cd Spid.jl
 git fetch --all
 git switch --detach ${COMMIT_HASH}
 cd /opt
+
+# patch the julia source files
+patch /opt/Spid.jl/src/Pileup2Consensus.jl /opt/spid_singularity/fixes.patch
+patch /opt/Spid.jl/Project.toml /opt/spid_singularity/project_toml_fixes.patch
+
 
 #git clone https://github.com/romxero/Spid.jl-fixes.git
 #mv Spid.jl-fixes Spid.jl
@@ -129,7 +138,6 @@ else
     PREFERRED_CACHE_DIR=${SPID_USER_HOME_CACHE_DIR}
 fi
 
-
 if ! [ -d ${PREFERRED_CACHE_DIR} ]
 then
     #make the user directory
@@ -142,9 +150,7 @@ then
     #make the user directory
     mkdir -p ${PREFERRED_CACHE_DIR}/overlay
 fi
-
 # Look at adding more to the depot directory. 
-
 
 ####
 export PREFERRED_CACHE_DIR
@@ -160,11 +166,4 @@ export JULIA_PROJECT=/opt/Spid.jl
 %runscript
 /usr/local/bin/spid.jl
 
-
-
-# INSTEAD MAKE A PATCH FILE 
-
-#make some patches 
-perl -pi -e 's/Float64/Int8/g' /opt/Spid.jl/src/Pileup2Consensus.jl
-perl -pi -e 's/samtools --version/samtools --version \| head -n1/g' /opt/Spid.jl/src/Pileup2Consensus.jl
 

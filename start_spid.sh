@@ -100,6 +100,9 @@ apptainer exec --overlay ${PREFERRED_CACHE_DIR}/overlay --nv --bind /hpc:/hpc ${
 
 #apptainer shell --overlay ${PREFERRED_CACHE_DIR}/overlay --nv --bind /hpc:/hpc ${CONTAINER_FULL_PATH}
 
+# mkdir -p /tmp/rc_overlay_dir
+
+#apptainer shell --overlay /tmp/rc_overlay_dir --bind /hpc:/hpc ${CONTAINER_FULL_PATH}
 
 
 
